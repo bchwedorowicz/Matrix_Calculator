@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.beata.matrix.controller.MatrixPaneController">
+	<children>
+		<Label layoutX="14.0" layoutY="6.0" text="Enter matrix size:" />
+		<Label layoutX="14.0" layoutY="32.0" text="Matrix 1:" />
+		<Spinner fx:id="m1ColumnsCount" editable="true" layoutX="104.0" layoutY="52.0" prefHeight="25.0" prefWidth="62.0">
+			<valueFactory>
+				<SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="1" />
+			</valueFactory>
+		</Spinner>
+		<Label layoutX="14.0" layoutY="56.0" text="Columns count" />
+		<Label layoutX="14.0" layoutY="84.0" text="Rows count" />
+		<Spinner fx:id="m1RowsCount" editable="true" layoutX="104.0" layoutY="80.0" prefHeight="25.0" prefWidth="62.0">
+			<valueFactory>
+				<SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="1" />
+			</valueFactory>
+		</Spinner>
+		<Label layoutX="236.0" layoutY="56.0" text="Columns count" />
+		<Label layoutX="236.0" layoutY="32.0" text="Matrix 2:" />
+		<Label layoutX="236.0" layoutY="84.0" text="Rows count" />
+		<Spinner fx:id="m2ColumnsCount" editable="true" layoutX="338.0" layoutY="52.0" prefHeight="8.0" prefWidth="46.0">
+			<valueFactory>
+				<SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="1" />
+			</valueFactory>
+		</Spinner>
+		<Spinner fx:id="m2RowsCount" editable="true" layoutX="338.0" layoutY="80.0" prefHeight="8.0" prefWidth="46.0">
+			<valueFactory>
+				<SpinnerValueFactory.IntegerSpinnerValueFactory max="99" min="1" />
+			</valueFactory>
+		</Spinner>
+		<Button fx:id="createMatrixButton" layoutX="467.0" layoutY="61.0" mnemonicParsing="false" text="Create Matrix" />
+		<Separator layoutY="136.0" prefHeight="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+		<TableView fx:id="m1Table" editable="true" layoutX="13.0" layoutY="192.0" prefHeight="184.0" prefWidth="182.0">
+		</TableView>
+		<TableView fx:id="m2Table" editable="true" layoutX="298.0" layoutY="192.0" prefHeight="184.0" prefWidth="198.0">
+		</TableView>
+		<TableView fx:id="resultMatrixTable" layoutX="574.0" layoutY="192.0" prefHeight="184.0" prefWidth="182.0">
+		</TableView>
+		<Label layoutX="80.0" layoutY="166.0" text="Matrix 1" />
+		<Label layoutX="375.0" layoutY="166.0" text="Matrix 2" />
+		<Label layoutX="630.0" layoutY="166.0" text="Result Matrix" />
+		<RadioButton fx:id="addRButton" layoutX="204.0" layoutY="238.0" mnemonicParsing="false" text="+ (add)" />
+		<RadioButton fx:id="multiplyRButton" layoutX="204.0" layoutY="293.0" mnemonicParsing="false" text="* (multiply)" />
+		<RadioButton fx:id="substractRButton" layoutX="204.0" layoutY="268.0" mnemonicParsing="false" text="- (substract)" />
+      <Button fx:id="calculateButton" layoutX="504.0" layoutY="264.0" mnemonicParsing="false" text="Calulate" />
+	</children>
+</AnchorPane>
