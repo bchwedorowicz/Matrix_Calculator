@@ -219,20 +219,20 @@ public class MatrixPaneController implements Initializable {
 	}
     }
 
-    private void setTableViewToMatrix(TableView<TableRowModel> table, Matrix m) {
+    private Matrix createMatrixFromTableView(TableView<TableRowModel> table) {
+	Matrix m = new Matrix(table.getItems().size(), table.getColumns().size());
 	for (int i = 0; i < m.getRowsCount(); i++) {
 	    for (int j = 0; j < m.getColumnsCount(); j++) {
 		int cellValue = table.getItems().get(i).getCellValue(j);
 		m.setCellValue(i, j, cellValue);
 	    }
 	}
+	return m;
     }
 
     private void switchMathOperation() {
-	Matrix m1 = new Matrix(m1Table.getItems().size(), m1Table.getColumns().size());
-	Matrix m2 = new Matrix(m2Table.getItems().size(), m2Table.getColumns().size());
-	setTableViewToMatrix(m1Table, m1);
-	setTableViewToMatrix(m2Table, m2);
+	Matrix m1 = createMatrixFromTableView(m1Table);
+	Matrix m2 = createMatrixFromTableView(m2Table);
 	if (addRButton.isSelected()) {
 	    Matrix addResult = matrixCalculatorService.addMatrices(m1, m2);
 	    setResultMatrixToTableView(addResult);
