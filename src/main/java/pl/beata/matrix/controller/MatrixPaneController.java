@@ -3,11 +3,9 @@ package pl.beata.matrix.controller;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,13 +18,14 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import pl.beata.matrix.model.Matrix;
 import pl.beata.matrix.model.TableRowModel;
+import pl.beata.matrix.service.MatrixCalculatorService;
 
 public class MatrixPaneController implements Initializable {
 
@@ -65,6 +64,8 @@ public class MatrixPaneController implements Initializable {
 
     @FXML
     private Button calculateButton;
+
+    private MatrixCalculatorService matrixCalculatorService = new MatrixCalculatorService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -189,7 +190,6 @@ public class MatrixPaneController implements Initializable {
 		return;
 	    }
 	}
-	// this method will be invoked when none button is selected
 	selectFirstEnableButton(buttonList);
     }
 
@@ -200,7 +200,6 @@ public class MatrixPaneController implements Initializable {
 		.ifPresent(f -> f.setSelected(true));
     }
 
-    // TODO: zmienic nazwe metody xxx
     private void setButtonsDisabled() {
 	addRButton.setDisable(true);
 	multiplyRButton.setDisable(true);
@@ -208,73 +207,30 @@ public class MatrixPaneController implements Initializable {
 	calculateButton.setDisable(true);
     }
 
-    private void addMatrices() {
-	// TODO: nie brac rozmiarow z spinnerow xxx
-	for (int i = 0; i < m1Table.getItems().size(); i++) {
+    private void setResultMatrixToTable(Matrix result) {
 
-	    TableRowModel row = resultMatrixTable.getItems().get(i);
-	    for (int j = 0; j < m1Table.getColumns().size(); j++) {
-
-		int m1Int = getCellValue(m1Table, j, i);
-		int m2Int = getCellValue(m2Table, j, i);
-		int result = m1Int + m2Int;
-		row.setCellValue(j, result);
+	for (int i = 0; i < result.getRowsCount(); i++) {
+	    TableRowModel row = new TableRowModel(result.getColumnsCount());
+	    for (int j = 0; j < result.getColumnsCount(); j++) {
+		int cellValue = result.getCellValue(i, j);
+		row.setCellValue(j, cellValue);
 	    }
+	    resultMatrixTable.getItems().set(i, row);
 	}
-    }
-
-    private void substractMatrices() {
-	// TODO: nie brac rozmiarow z spinnerow xxx
-	for (int i = 0; i < m1Table.getItems().size(); i++) {
-	    // TODO: tworzenie nowych wierszy juz to wczoraj zmienialismy zeby nie trzea
-	    // bylo xxx
-	    TableRowModel row = resultMatrixTable.getItems().get(i);
-	    for (int j = 0; j < m1Table.getColumns().size(); j++) {
-
-		int m1Int = getCellValue(m1Table, j, i);
-		int m2Int = getCellValue(m2Table, j, i);
-		int result = m1Int - m2Int;
-		row.setCellValue(j, result);
-	    }
-	}
-
-    }
-
-    private void multiplyMatrices() {
-	// TODO: nie brac rozmiarow z spinnerow xxx
-	for (int k = 0; k < m1Table.getItems().size(); k++) {
-	    // TODO: tworzenie nowych wierszy juz to wczoraj zmienialismy zeby nie trzea
-	    // bylo xxx
-	    TableRowModel row = resultMatrixTable.getItems().get(k);
-	    for (int i = 0; i < m1Table.getItems().size(); i++) {
-		// TODO: czy to dobre miejsce na zmienna result ? tak
-		Integer result = 0;
-		for (int j = 0; j < m1Table.getColumns().size(); j++) {
-
-		    int m1Int = getCellValue(m1Table, j, i);
-		    int m2Int = getCellValue(m2Table, k, j);
-		    result += (m1Int * m2Int);
-		}
-		row.setCellValue(i, result);
-	    }
-	}
-    }
-
-    private Integer getCellValue(TableView<TableRowModel> table, int columnIndex, int rowIndex) {
-
-	TableRowModel row = table.getItems().get(rowIndex);
-	return row.getCellValue(columnIndex);
     }
 
     private void switchMathOperation() {
+	Matrix m1 = new Matrix(m1Table.getItems().size(), m1Table.getColumns().size());
+	Matrix m2 = new Matrix(m2Table.getItems().size(), m2Table.getColumns().size());
 	if (addRButton.isSelected()) {
-	    addMatrices();
+	    Matrix result = matrixCalculatorService.addMatrices(m1, m2);
+	    setResultMatrixToTable(result);
 	}
 	if (substractRButton.isSelected()) {
-	    substractMatrices();
+	    matrixCalculatorService.substractMatrices(m1, m2);
 	}
 	if (multiplyRButton.isSelected()) {
-	    multiplyMatrices();
+	    matrixCalculatorService.multiplyMatrices(m1, m2);
 	}
     }
 
