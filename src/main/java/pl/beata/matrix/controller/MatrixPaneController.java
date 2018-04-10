@@ -207,7 +207,7 @@ public class MatrixPaneController implements Initializable {
 	calculateButton.setDisable(true);
     }
 
-    private void setResultMatrixToTable(Matrix result) {
+    private void setResultMatrixToTableView(Matrix result) {
 
 	for (int i = 0; i < result.getRowsCount(); i++) {
 	    TableRowModel row = new TableRowModel(result.getColumnsCount());
@@ -219,18 +219,31 @@ public class MatrixPaneController implements Initializable {
 	}
     }
 
+    private void setTableViewToMatrix(TableView<TableRowModel> table, Matrix m) {
+	for (int i = 0; i < m.getRowsCount(); i++) {
+	    for (int j = 0; j < m.getColumnsCount(); j++) {
+		int cellValue = table.getItems().get(i).getCellValue(j);
+		m.setCellValue(i, j, cellValue);
+	    }
+	}
+    }
+
     private void switchMathOperation() {
 	Matrix m1 = new Matrix(m1Table.getItems().size(), m1Table.getColumns().size());
 	Matrix m2 = new Matrix(m2Table.getItems().size(), m2Table.getColumns().size());
+	setTableViewToMatrix(m1Table, m1);
+	setTableViewToMatrix(m2Table, m2);
 	if (addRButton.isSelected()) {
-	    Matrix result = matrixCalculatorService.addMatrices(m1, m2);
-	    setResultMatrixToTable(result);
+	    Matrix addResult = matrixCalculatorService.addMatrices(m1, m2);
+	    setResultMatrixToTableView(addResult);
 	}
 	if (substractRButton.isSelected()) {
-	    matrixCalculatorService.substractMatrices(m1, m2);
+	    Matrix substractResult = matrixCalculatorService.substractMatrices(m1, m2);
+	    setResultMatrixToTableView(substractResult);
 	}
 	if (multiplyRButton.isSelected()) {
-	    matrixCalculatorService.multiplyMatrices(m1, m2);
+	    Matrix multiplyResult = matrixCalculatorService.multiplyMatrices(m1, m2);
+	    setResultMatrixToTableView(multiplyResult);
 	}
     }
 
