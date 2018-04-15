@@ -34,7 +34,7 @@ public class MatrixCalculatorService {
     }
 
     public Matrix multiplyMatrices(Matrix m1Table, Matrix m2Table) {
-	Matrix resultMatrix = new Matrix(m2Table.getRowsCount(), m1Table.getColumnsCount());
+	Matrix resultMatrix = new Matrix(m1Table.getRowsCount(), m2Table.getColumnsCount());
 	for (int k = 0; k < m1Table.getRowsCount(); k++) {
 	    for (int i = 0; i < m1Table.getRowsCount(); i++) {
 		int result = 0;
