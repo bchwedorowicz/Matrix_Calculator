@@ -33,11 +33,16 @@ public class MatrixTest {
 
 	boolean actualT = m1.equals(m2);
 	boolean actualF = m1.equals(m3);
+	int m1HashCode = m1.hashCode();
+	int m2HashCode = m2.hashCode();
+	int m3HashCode = m3.hashCode();	
 
 	// then
 
 	Assert.assertEquals(true, actualT);
 	Assert.assertEquals(false, actualF);
+	Assert.assertEquals(m1HashCode, m2HashCode);
+	Assert.assertNotSame(m1HashCode, m3HashCode);
 
     }
 
